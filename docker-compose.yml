@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./server
+    container_name: intervention_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - db-data:/app/data
+      - uploads-data:/app/public/uploads
+    environment:
+      - PORT=5000
+      - DB_PATH=/app/data/incidents.db
+      # Email configuration (optional)
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-}
+      - SMTP_SECURE=${SMTP_SECURE:-false}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASS=${SMTP_PASS:-}
+      - FROM_EMAIL=${FROM_EMAIL:-}
+      - FROM_NAME=${FROM_NAME:-Incident Reporting System}
+    restart: always
+
+  frontend:
+    build: ./client
+    container_name: intervention_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  db-data:
+  uploads-data:
