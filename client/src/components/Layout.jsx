@@ -7,11 +7,11 @@ export const Layout = ({ children }) => {
 
     React.useEffect(() => {
         // Fetch logo settings
-        fetch('http://localhost:5000/api/settings')
+        fetch('/api/settings')
             .then(res => res.json())
             .then(data => {
                 if (data.data && data.data.logo) {
-                    setLogoUrl(`http://localhost:5000${data.data.logo}`);
+                    setLogoUrl(data.data.logo);
                 }
             })
             .catch(err => console.error("Failed to load branding", err));

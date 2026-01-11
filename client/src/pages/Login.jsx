@@ -12,7 +12,7 @@ export const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/settings')
+        fetch('/api/settings')
             .then(res => res.json())
             .then(data => {
                 if (data.data?.logo) setLogo(data.data.logo);
@@ -25,7 +25,7 @@ export const Login = () => {
         setError('');
 
         try {
-            const res = await fetch('http://localhost:5000/api/login', {
+            const res = await fetch('/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -51,7 +51,7 @@ export const Login = () => {
                 <div className="flex flex-col items-center mb-8">
                     {logo ? (
                         <img
-                            src={`http://localhost:5000${logo}`}
+                            src={logo}
                             alt="Organization Logo"
                             className="h-20 w-auto object-contain mb-6 animate-in zoom-in duration-300"
                         />

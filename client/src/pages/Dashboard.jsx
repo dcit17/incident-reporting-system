@@ -44,7 +44,7 @@ export const Dashboard = () => {
 
     const fetchSettings = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/settings');
+            const res = await fetch('/api/settings');
             const data = await res.json();
             if (data.data) setSettings(data.data);
         } catch (err) { console.error(err); }
@@ -57,7 +57,7 @@ export const Dashboard = () => {
 
     const fetchIncidents = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/incidents', { headers: getAuthHeaders() });
+            const res = await fetch('/api/incidents', { headers: getAuthHeaders() });
             const data = await res.json();
             if (data.message === 'success') {
                 setIncidents(data.data);
@@ -68,7 +68,7 @@ export const Dashboard = () => {
 
     const fetchArchive = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/archive', { headers: getAuthHeaders() });
+            const res = await fetch('/api/archive', { headers: getAuthHeaders() });
             const data = await res.json();
             if (data.data) setArchivedIncidents(data.data);
         } catch (err) { console.error(err); }
@@ -76,7 +76,7 @@ export const Dashboard = () => {
 
     const fetchUsers = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/users', { headers: getAuthHeaders() });
+            const res = await fetch('/api/users', { headers: getAuthHeaders() });
             const data = await res.json();
             if (data.data) setUsers(data.data);
         } catch (err) { console.error(err); }
@@ -87,7 +87,7 @@ export const Dashboard = () => {
     const handleDelete = async (id) => {
         if (!confirm("Are you sure you want to DELETE this incident? It will be moved to the archive.")) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/incidents/${id}`, {
+            const res = await fetch(`/api/incidents/${id}`, {
                 method: 'DELETE',
                 headers: getAuthHeaders()
             });
@@ -104,7 +104,7 @@ export const Dashboard = () => {
     const handleRestore = async (id) => {
         if (!confirm("Restore this incident to the main list?")) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/archive/${id}/restore`, {
+            const res = await fetch(`/api/archive/${id}/restore`, {
                 method: 'POST',
                 headers: getAuthHeaders()
             });
@@ -131,7 +131,7 @@ export const Dashboard = () => {
         if (!confirm(`Are you sure you want to MERGE these ${selectedIds.length} tickets? This will combine them into the oldest ticket and DELETE the others.`)) return;
 
         try {
-            const res = await fetch('http://localhost:5000/api/incidents/merge', {
+            const res = await fetch('/api/incidents/merge', {
                 method: 'POST',
                 headers: getAuthHeaders(),
                 body: JSON.stringify({ ids: selectedIds })
@@ -159,7 +159,7 @@ export const Dashboard = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:5000/api/settings/upload', {
+            const res = await fetch('/api/settings/upload', {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }, // No Content-Type for FormData
                 body: formData
@@ -181,7 +181,7 @@ export const Dashboard = () => {
     const handleCreateUser = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/users', {
+            const res = await fetch('/api/users', {
                 method: 'POST',
                 headers: getAuthHeaders(),
                 body: JSON.stringify(newUser)
@@ -201,7 +201,7 @@ export const Dashboard = () => {
         const newPass = prompt("Enter new password for this user:");
         if (!newPass) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/users/${id}/reset-password`, {
+            const res = await fetch(`/api/users/${id}/reset-password`, {
                 method: 'PATCH',
                 headers: getAuthHeaders(),
                 body: JSON.stringify({ password: newPass })
@@ -230,7 +230,7 @@ export const Dashboard = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 shadow-lg no-print">
                 <div className="flex items-center gap-4">
                     {settings.logo ? (
-                        <img src={`http://localhost:5000${settings.logo}`} alt="Logo" className="h-12 w-auto object-contain" />
+                        <img src={settings.logo} alt="Logo" className="h-12 w-auto object-contain" />
                     ) : (
                         <img src="/default-logo.png" alt="Incident Reporting System" className="h-12 w-auto object-contain" />
                     )}
@@ -551,7 +551,7 @@ export const Dashboard = () => {
                             <h3 className="text-2xl font-bold mb-4">Logo Preview</h3>
                             <div className="p-8 bg-white/10 rounded-xl border border-white/20 backdrop-blur-sm flex justify-center">
                                 {settings?.logo ? (
-                                    <img src={`http://localhost:5000${settings.logo}`} alt="Logo Preview" className="h-16 object-contain" />
+                                    <img src={settings.logo} alt="Logo Preview" className="h-16 object-contain" />
                                 ) : (
                                     <span className="text-sm font-mono text-slate-400">No Custom Logo</span>
                                 )}
@@ -561,7 +561,7 @@ export const Dashboard = () => {
                             <h3 className="text-2xl font-bold mb-4">Favicon Preview</h3>
                             <div className="p-8 bg-white/10 rounded-xl border border-white/20 backdrop-blur-sm flex justify-center">
                                 {settings?.favicon ? (
-                                    <img src={`http://localhost:5000${settings.favicon}`} alt="Favicon Preview" className="h-12 w-12 object-contain" />
+                                    <img src={settings.favicon} alt="Favicon Preview" className="h-12 w-12 object-contain" />
                                 ) : (
                                     <span className="text-sm font-mono text-slate-400">No Custom Favicon</span>
                                 )}

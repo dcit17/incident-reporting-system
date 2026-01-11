@@ -22,7 +22,7 @@ export const PrintListView = () => {
             // In a larger app, a bulk-fetch endpoint would be better.
             for (const id of ids) {
                 try {
-                    const res = await fetch(`http://localhost:5000/api/incidents/${id}`, {
+                    const res = await fetch(`/api/incidents/${id}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     const data = await res.json();

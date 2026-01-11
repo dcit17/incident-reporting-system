@@ -9,7 +9,7 @@ export const PrintView = () => {
         const fetchIncident = async () => {
             const token = localStorage.getItem('token');
             try {
-                const res = await fetch(`http://localhost:5000/api/incidents/${id}`, {
+                const res = await fetch(`/api/incidents/${id}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
